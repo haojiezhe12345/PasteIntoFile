@@ -27,13 +27,14 @@ namespace PasteAsFile
         public frmMain(string location)
         {
             InitializeComponent();
-            this.CurrentLocation = location;
+            this.CurrentLocation = location.Replace("\"", string.Empty);
+            //MessageBox.Show(CurrentLocation);
         }
         private void frmMain_Load(object sender, EventArgs e)
         {
             string filename = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Classes\Directory\shell\Paste Into File\filename", "", null) ?? DEFAULT_FILENAME_FORMAT;
             txtFilename.Text = DateTime.Now.ToString(filename);
-            txtCurrentLocation.Text = CurrentLocation ?? @"C:\";
+            txtCurrentLocation.Text = CurrentLocation ?? @Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
             if (Registry.GetValue(@"HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell\Paste Into File\command", "", null) == null)
             {
@@ -49,6 +50,7 @@ namespace PasteAsFile
                 comExt.SelectedItem = "txt";
                 IsText = true;
                 txtContent.Text = Clipboard.GetText();
+                btnSave_Click(null, null);
                 return;
             }
 
@@ -57,13 +59,14 @@ namespace PasteAsFile
                 lblType.Text = "Image";
                 comExt.SelectedItem = "png";
                 imgContent.Image = Clipboard.GetImage();
+                btnSave_Click(null, null);
                 return;
             }
 
             lblType.Text = "Unknown File";
             btnSave.Enabled = false;
-
-
+            showNotification("Unknown file!");
+            Environment.Exit(0);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -106,9 +109,34 @@ namespace PasteAsFile
 
             Task.Factory.StartNew(() =>
             {
-                Thread.Sleep(1000);
+                showNotification(location + filename);
+                //Thread.Sleep(1000);
                 Environment.Exit(0);
             });
+        }
+
+        private void showNotification(string txt)
+        {
+            var notification = new System.Windows.Forms.NotifyIcon()
+            {
+                Visible = true,
+                Icon = System.Drawing.SystemIcons.Information,
+                // optional - BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info,
+                BalloonTipTitle = this.Text,
+                BalloonTipText = txt,
+            };
+
+            // Display for 5 seconds.
+            notification.ShowBalloonTip(5000);
+
+            // This will let the balloon close after it's 5 second timeout
+            // for demonstration purposes. Comment this out to see what happens
+            // when dispose is called while a balloon is still visible.
+            Thread.Sleep(8000);
+
+            // The notification should be disposed when you don't need it anymore,
+            // but doing so will immediately close the balloon if it's visible.
+            notification.Dispose();
         }
 
         private void btnBrowseForFolder_Click(object sender, EventArgs e)

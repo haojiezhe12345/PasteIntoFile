@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PasteIntoFile</RootNamespace>
     <AssemblyName>PasteIntoFile</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -93,7 +94,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\Debug\PasteAsFile.exe" />
     <Content Include="icon.ico" />
     <Content Include="screenshot.png" />
   </ItemGroup>
