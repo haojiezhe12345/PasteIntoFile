@@ -1,4 +1,4 @@
-## 📢 New Version Released: [Info & Download](https://on.eslamx.com/2YcPKdt) 🔥
+## This modified version of PasteIntoFile does not prompt user for saving the file. It saves file automatically when user click it from desktop contextmenu, and shows a ballon notification when the file is saved
 ---
 # Paste Into File
 
