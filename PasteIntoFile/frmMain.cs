@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -107,36 +108,16 @@ namespace PasteAsFile
                 this.Text += " : Image Saved :)";
             }
 
-            Task.Factory.StartNew(() =>
-            {
-                showNotification(location + filename);
-                //Thread.Sleep(1000);
-                Environment.Exit(0);
-            });
+            showNotification(location + filename);
+            Environment.Exit(0);
         }
 
         private void showNotification(string txt)
         {
-            var notification = new System.Windows.Forms.NotifyIcon()
-            {
-                Visible = true,
-                Icon = System.Drawing.SystemIcons.Information,
-                // optional - BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info,
-                BalloonTipTitle = this.Text,
-                BalloonTipText = txt,
-            };
-
-            // Display for 5 seconds.
-            notification.ShowBalloonTip(5000);
-
-            // This will let the balloon close after it's 5 second timeout
-            // for demonstration purposes. Comment this out to see what happens
-            // when dispose is called while a balloon is still visible.
-            Thread.Sleep(8000);
-
-            // The notification should be disposed when you don't need it anymore,
-            // but doing so will immediately close the balloon if it's visible.
-            notification.Dispose();
+            new ToastContentBuilder()
+                .AddText(this.Text)
+                .AddText(txt)
+                .Show();
         }
 
         private void btnBrowseForFolder_Click(object sender, EventArgs e)
