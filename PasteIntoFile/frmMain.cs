@@ -115,6 +115,7 @@ namespace PasteAsFile
         private void showNotification(string txt)
         {
             new ToastContentBuilder()
+                .AddHeroImage(new Uri(txt))
                 .AddText(this.Text)
                 .AddText(txt)
                 .Show();
