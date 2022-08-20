@@ -37,6 +37,10 @@ namespace PasteAsFile
                     }
                     return;
                 }
+				else if (args[0][0] == '-')
+				{
+					return;
+				}
 				Application.Run(new frmMain(args[0]));
 			}
 			else
